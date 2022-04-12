@@ -1,0 +1,324 @@
+using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+
+namespace task
+{
+     public class student
+    {
+       public string firstname { get; set; }
+       public string lastname { get; set; }
+       public string smailid { get; set; }
+       public string branch { get; set; }
+       public double per { get; set; }
+       public List<string> courses { get; set; }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<student> slist = new List<student>()
+            {
+                new student(){firstname="ajay",lastname="varma",smailid="ajay@gmail.com",branch="ece",per=85,courses=new List<string>(){"c","c++","c#"} },
+                new student(){firstname="vijay",lastname="sharma",smailid="vijay@gmail.com",branch="cse",per=89,courses=new List<string>(){"java","python"}},
+                new student(){firstname="rohit",lastname="kumar",smailid="rohit@gmail.com",branch="ece",per=92,courses=new List<string>(){"c","java"}},
+                new student(){firstname="hardhik",lastname="pandey",smailid="hardhik@gmail.com",branch="mech",per=75,courses=new List<string>(){"c","c++","java"}},
+                new student(){firstname="gautham",lastname="ghambir",smailid="gautham@gmail.com",branch="civil",per=80,courses=new List<string>(){"c#","c++"}},
+                new student(){firstname="shubman",lastname="gill",smailid="shubman@gmail.com",branch="cse",per=95,courses=new List<string>(){"java","python"}},
+                new student(){firstname="sunil",lastname="narine",smailid="sunil@gmail.com",branch="ece",per=85,courses=new List<string>(){"c","python"}}
+
+
+            };
+            Console.WriteLine("\n--select query---");
+            var query = from i in slist select i;
+
+            foreach (var i in query)
+
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query1 = slist.Select(i => i);
+            foreach (var i in query1)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("\n---where query---");
+            var query2 = from i in slist where i.per > 85 select i;
+            foreach(var i in query2)
+            { 
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query3 = slist.Where(i => i.per > 88);
+            foreach (var i in query3)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("---take query---");
+            var query4 = (from i in slist select i).Take(4);
+            foreach (var i in query4)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+           var query5 = (slist.Select(i => i)).Take(2);
+            foreach (var i in query5)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("---takewhile query---");
+            var query6 = (from i in slist select i).TakeWhile(i=> i.firstname.StartsWith('s'));
+            foreach (var i in query6)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("---skip query---");
+            var query7 = (from i in slist select i).Skip(5);
+            foreach (var i in query7)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query8 = (slist.Select(i => i).Skip(4));
+
+            foreach (var i in query8)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query9 = (from i in slist select i).SkipWhile(i => i.per == 85).TakeWhile(i => i.per > 80);
+
+            foreach (var i in query9)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+                }
+                Console.WriteLine("---skip query---");
+            var query10 = (slist.Select(i => i).SkipWhile(i => i.per == 85).TakeWhile(i => i.per > 80));
+            foreach (var i in query10)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("\n---order by---");
+
+            var query11 = from i in slist orderby i.firstname select i;
+            foreach (var i in query11)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query12 = slist.OrderBy(i => i.firstname);
+            foreach (var i in query12)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+
+            var query13 = from i in slist orderby i.firstname descending select i;
+            foreach (var i in query13)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query14 = slist.OrderByDescending(i => i.firstname);
+            foreach (var i in query14)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("\n---group by query---");
+            var query15 = from i in slist group i by i.branch;
+            foreach (var group in query15)
+            {
+                Console.WriteLine(group.Key);
+                Console.WriteLine("****");
+                foreach (var i in group)
+                {
+                    Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+                }
+
+            }
+            var query16 = slist.GroupBy(i => i.per);
+            foreach (var group in query16)
+            {
+                Console.WriteLine(group.Key);
+                Console.WriteLine("****");
+                foreach (var i in group)
+                {
+                    Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+                }
+               
+                var querya1 = slist.SelectMany(i => i.courses);
+                foreach (var i in querya1)
+                {
+                    Console.WriteLine(i);
+                }
+
+            }
+            Console.WriteLine("\n---agregate functions---");
+
+            double sum = (from i in slist select i.per).Sum();
+            Console.WriteLine(sum);
+
+            double sum1 = slist.Select(i => i.per).Sum();
+            Console.WriteLine(sum1);
+
+
+
+            double avg = (from i in slist select i.per).Average();
+            Console.WriteLine(avg);
+
+            double avg1 = slist.Select(i => i.per).Average();
+            Console.WriteLine(avg1);
+
+
+            double max = (from i in slist select i.per).Max();
+            Console.WriteLine(max);
+
+            double max1 = slist.Select(i => i.per).Max();
+           Console.WriteLine(max1);
+
+
+            double min = (from i in slist select i.per).Min();
+            Console.WriteLine(min);
+
+            double min1 = slist.Select(i => i.per).Min();
+            Console.WriteLine(min1);
+
+            int count = (from i in slist select i).Count();
+            Console.WriteLine(count);
+
+            int count1 = slist.Count();
+            Console.WriteLine(count1);
+
+            var query17 = (from i in slist select i.branch).Distinct();
+            foreach(var i in query17)
+            {
+                Console.WriteLine(i);
+            }
+
+            var query18 = slist.Select(i => i.branch).Distinct();
+            foreach (var i in query18)
+            {
+                Console.WriteLine(i);
+            }
+            Console.WriteLine("\n---let query---");
+
+            var query19 = from i in slist let res = i.branch +"  final year" select res;
+            foreach (var i in query19)
+            {
+               Console.WriteLine(i);
+            }
+            List<student> slist1 = new List<student>()
+            {
+               new student(){firstname="kedhar",lastname="jadhav",smailid="jadhav@gmail.com",branch="civil",per=68},
+                new student(){firstname="vijay",lastname="shanker",smailid="srh@gmail.com",branch="mech",per=72},
+                new student(){firstname="maneesh",lastname="pandey",smailid="maneesh@gmail.com",branch="cse",per=75},
+            };
+            Console.WriteLine("\n---into query---");
+
+            var query20 = from i in slist 
+                          join j in slist1 on i.per equals j.per into res1 select res1;
+            foreach(var j in query20)
+            {
+                foreach(var i in j)
+                {
+                   Console.WriteLine(i.per);
+                }
+            }
+            Console.WriteLine("---oftype query---");
+            object[] obj = new object[] { 101, "asp.net", 102, "web api", 103, "angular" };
+            var query21 = from i in obj.OfType<string>() select i;
+            foreach(var i in query21)
+            {
+                Console.WriteLine(i);
+            }
+          
+            
+
+   
+
+         
+            
+            int[] digits = new int[] { 11,11, 12, 13, 1, 41, 24, 34, 45 };
+            Console.WriteLine("---Firstordefault---");
+            var query26 = (from i in digits where i == 10 select i).FirstOrDefault();
+            Console.WriteLine(query26);
+            Console.WriteLine("---First---");
+            var query27 = (from i in digits where i == 11 select i).First();
+            Console.WriteLine(query27);
+            Console.WriteLine("---last---");
+            var query28 = (from i in digits where i == 45 select i).Last();
+            Console.WriteLine(query28);
+            Console.WriteLine("---single---");
+            var query29 = (from i in digits where i == 12 select i).Single();
+            Console.WriteLine(query29);
+            Console.WriteLine("---singleordefault---");
+            var query30 = (from i in digits where i == 50 select i).SingleOrDefault();
+            Console.WriteLine(query30);
+            Console.WriteLine("---elementat---");
+            var query31 = (from i in digits select i).ElementAt(3);
+            Console.WriteLine(query31);
+            Console.WriteLine("---elementatordefault---");
+            var query32 = (from i in digits select i).ElementAtOrDefault(13);
+            Console.WriteLine(query32);
+            Console.WriteLine("---deffered execution---");
+            var query33 = (from i in slist select i);
+            slist.Add(new student() { firstname = "rashid", lastname = "khan", smailid = "rashid@gmail.com", branch = "mech", per = 90 });
+            foreach(var i in query33)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("---immediate execution---");
+
+             var query34 = (from i in slist where i.per>90 select i).Count();
+            slist.Add(new student() { firstname = "nitish", lastname = "rana", smailid = "nitish@gmail.com", branch = "mech", per = 90 });
+
+
+                Console.WriteLine(query34);
+            Console.WriteLine("--starts ends conytains---");
+
+            var query35 = slist.Where(i => i.firstname.StartsWith('s'));
+            foreach (var i in query35)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query36 = slist.Where(i => i.firstname.EndsWith('k'));
+            foreach (var i in query36)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            var query37 = slist.Where(i => i.firstname.Contains('a'));
+            foreach (var i in query35)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("---------");
+            Console.WriteLine("---ienumerable---");
+            IEnumerable<student> query38 = from i in slist select i;
+            query38 = query38.Take(2);
+            foreach (var i in query38)
+            {
+                Console.WriteLine(i.firstname + " " + i.lastname + "," + i.smailid + "," + i.branch + "," + i.per);
+            }
+            Console.WriteLine("\n-------------IQuerable-----------------");
+
+            IQueryable<student> query39 = slist.AsQueryable();
+            query39 = query39.Take(2);
+            foreach (var i in query39)
+            {
+                Console.WriteLine($"{i.firstname},{i.lastname},{i.smailid},{i.branch},{i.per}");
+            }
+
+          
+       
+
+            
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+    }
+}
